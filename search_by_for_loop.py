@@ -14,16 +14,3 @@ def search(element, array):
             return b_ward
 
     return -2
-
-
-n = int(input("Enter the size of array : "))
-a = []
-for i in range(n):
-    b = int(input("Enter the element : "))
-    a.append(b)
-
-element = int(input("Enter the element to be searched : "))
-
-print("Input array is : ", a)
-
-print(f"Element found at :", search(element, a))

@@ -21,16 +21,3 @@ def search(element, a, n):
         step = step + 1
 
     return -2
-
-
-n = int(input("Enter the size of array : "))
-a = []
-for i in range(n):
-    b = int(input("Enter the element : "))
-    a.append(b)
-
-element = int(input("Enter the element to be searched : "))
-
-print("Input array is : ", a)
-
-print(f"Element found at :", search(element, a, n))
