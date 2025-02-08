@@ -1,0 +1,15 @@
+algorithm midway_search(element, array):
+    # checks for mid element by floor division
+    mid:= array_length // 2
+    # initialize empty array
+    index_array = []
+    # if mid index is element append it to array
+    if mid == element then index_array.append(mid)
+    # else check recursively
+    for i in array:
+        # if backward element is the req element append to list
+        if mid - i > -1 and mid - i == element then index_array.append(mid - i)
+        # if forward element is the req element append to list
+        if mid + i < array_length and mid + i == element then index_array.append(mid + i)
+    # will return empty if no elements found
+    return index_array
