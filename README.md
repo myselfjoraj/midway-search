@@ -40,8 +40,8 @@ Follow the instructions below to set up and run the Midway Searching algorithm o
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/midway-searching.git
-   cd midway-searching
+   git clone https://github.com/myselfjoraj/midway-search.git
+   cd midway-search
    ```
 
 2. **Create a Virtual Environment:**
