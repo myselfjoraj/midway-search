@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 table.appendChild(currentRow);
             }
         }
+        
         document.getElementById('resultTable').removeAttribute('hidden');
 
         // Animate highlighting from the middle outwards
@@ -38,8 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }, delay);
         }
 
+        function hideStep(stepId) {
+            document.getElementById(stepId).classList.remove("show");
+        }
 
-        function highlightNext(data) {
+
+        function highlightNext(data1) {
             // Remove previous highlights
             if (left >= 0) cells[left].classList.remove('found-element');
             if (right < cells.length) cells[right].classList.remove('found-element');
@@ -51,12 +56,29 @@ document.addEventListener('DOMContentLoaded', () => {
             if (right < cells.length) cells[right].classList.add('found-element');
 
             if (left >= 0 || right < cells.length) {
-                setTimeout(highlightNext, 500); // Delay for next step
+                setTimeout(() => highlightNext(data1), 500);// Delay for next step
             } else {
                 setTimeout(() => {
                     // Clear the last highlights
                     if (left + 1 < cells.length) cells[left + 1].classList.remove('found-element');
                     if (right - 1 >= 0) cells[right - 1].classList.remove('found-element');
+                    
+                    console.log("op--->>",data1);
+
+                    cells.forEach((cell, index) => {
+                        if (data1.indexes.includes(index)) {
+                            cell.classList.add('found-element');
+                        }
+                    });
+
+                    setTimeout(() => {
+                        document.getElementById("step3").classList.add("show");
+                        setTimeout(() => {
+                            document.getElementById("result").classList.add("show");
+                            showStep("complexity", 500);
+                        }, 500);
+                    }, 500);
+
                 }, 500);
             }
         }
@@ -72,8 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                document.getElementById('indexResults').removeAttribute('hidden');
+                hideStep("step1");
+                hideStep("step2");
+                hideStep("step3");
+                hideStep("result");
+                hideStep("complexity");
+                //document.getElementById('indexResults').removeAttribute('');
                 const indexPositions = data.indexes.join(', ');
                 const operations = data.operations;
                 console.log("operations ------>> " + operations);
@@ -87,21 +113,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const cells = document.querySelectorAll('#resultTable td');
 
-                setTimeout(() => {
-                    cells.forEach((cell, index) => {
-                        if (data.indexes.includes(index)) {
-                            cell.classList.add('found-element');
-                        }
-                    });
-                }, ((operations / 2) * 500));
+                // setTimeout(() => {
+                //     cells.forEach((cell, index) => {
+                //         if (data.indexes.includes(index)) {
+                //             cell.classList.add('found-element');
+                //         }
+                //     });
+                // }, ((operations / 2) * 500));
+
+                startAnimation(data);
 
 
 
-
-
-
-
-                // Show steps one by one with delays
+                /*
                 showStep("step1", 1000);  // Show Step 1 after 1 second
 
                 setTimeout(() => {
@@ -124,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                 showStep("complexity", 9000); // Show Complexity after 9 seconds
+                */
 
 
 
@@ -131,5 +156,37 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 console.error('Error-found-in-request:', error);
             });
+
+
+            function startAnimation(data){
+
+                setTimeout(() => {
+                    document.getElementById("step1").classList.add("show");
+                    setTimeout(() => {
+                        cells[mid].classList.add('mid-element');
+                    }, 1500);
+    
+                    setTimeout(() => {
+                        cells[mid].classList.remove('mid-element');
+
+                        setTimeout(() => {
+                            document.getElementById("step2").classList.add("show");
+                            setTimeout(()=>highlightNext(data), 1000);
+                        }, 1500);
+                    }, 2000);
+                }, 1000);
+            }
+
+            function addContents(mid_element,left_element,right_element,indexes,given_element,tc,memory,operations){
+                document.getElementById("mid-element-td").innerText = "" + mid_element;
+                document.getElementById("left-element-td").innerText = "" + left_element;
+                document.getElementById("right-element-td").innerText = "" + right_element;
+                document.getElementById("step3-text").innerText = "Store the found indexes in a list "+ indexes +" and return";
+                document.getElementById("given-element").innerText = "" + given_element;
+                document.getElementById("step4-text").innerText = "is found at index(es) " + indexes;
+                document.getElementById("execution-text").innerText = "Execution Time : "+ tc +" ms";
+                document.getElementById("memory-text").innerText = "Memory Used : "+ memory +" bytes";
+                document.getElementById("time-comp-text").innerText = "Time Complexity(O(N)) : "+ operations;
+            }
     });
 });

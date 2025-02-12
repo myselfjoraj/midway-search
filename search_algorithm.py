@@ -3,7 +3,7 @@ def search(element, array):
     mid = size // 2
     index = []
 
-    operations = 0
+    operations = 1
     if array[mid] == element:
         index.append(mid)
 
