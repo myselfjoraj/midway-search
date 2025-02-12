@@ -3,6 +3,7 @@ def search(element, array):
     mid = size // 2
     index = []
 
+    operations = 0
     if array[mid] == element:
         index.append(mid)
 
@@ -10,6 +11,7 @@ def search(element, array):
 
         f_ward = mid + i
         b_ward = mid - i
+        operations += 2 
 
         if b_ward > -1 and array[b_ward] == element:
             index.append(b_ward)
@@ -17,4 +19,4 @@ def search(element, array):
         if f_ward < size and array[f_ward] == element:
             index.append(f_ward)
 
-    return index
+    return index, operations

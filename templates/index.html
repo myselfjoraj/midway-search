@@ -1,169 +1,111 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/style.css">
     <title>MidWay Search</title>
-    <style>
-        body {
-            background-color: #0cb3f0;
-            margin: 4rem;
-        }
-
-        .container {
-            padding: 4rem 5rem;
-            background-color: #fff;
-            border-radius: 1rem;
-            width: 100%;
-            max-width: 45rem;
-        }
-
-        table{
-            width:100%;
-            border-collapse: collapse;
-            margin-top: 50px;
-            border-radius: 10%;
-        }
-
-        td, th {
-            border: 1px solid white;
-            padding: 15px;
-            text-align: center;
-            vertical-align: middle;
-            background-color: #0cb3f0;
-            color: white;
-        }
-
-        .found-element{
-            background-color: #70e114;
-        }
-
-        h1 {
-            color: #fff;
-            font-size: 2.8rem;
-            font-weight: 600;
-            margin: 0 0 0.5rem 0;
-            background: -webkit-linear-gradient(#fff, #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-        }
-
-        h4 {
-            color: #7a598c;
-            font-size: 1.5rem;
-            font-weight: 400;
-            text-align: center;
-            margin: 0 0 3.5rem 0;
-        }
-
-        span{
-            display: flex;
-            justify-content: center;
-            font-size: 1.0rem;
-            font-weight: 400;
-            text-align: center;
-            margin: 2rem 0 3.5rem 0;
-        }
-
-        .btn.btn-primary {
-            background-color: #0cb3f0;
-            border-color: #0cb3f0;
-            outline: none;
-        }
-
-        .btn.btn-primary:hover {
-            background-color: #0cb3f0a1;
-            border-color: #0cb3f0a1;
-        }
-
-    </style>
 </head>
+
 <body>
 
-<h1>Midway Search</h1>
-<h4>Search your elements bi-directionally</h4>
-<div class="container">
+    <h1>Midway Search</h1>
+    <h4>Search your elements bi-directionally</h4>
+    <div class="container">
 
-    <div class="form-group">
-        <div class="input-group shadow">
+        <div class="form-group">
+            <div class="input-group shadow">
 
-            <input type="text" id="itemsInput" class="form-control form-control-lg" placeholder="Enter items as CSV">
+                <input type="text" id="itemsInput" class="form-control form-control-lg"
+                    placeholder="Enter items as CSV">
 
-            <input type="text" id="itemSearch" class="form-control form-control-lg" placeholder="Enter item to search">
+                <input type="text" id="itemSearch" class="form-control form-control-lg"
+                    placeholder="Enter item to search">
 
-            <button class="browse btn btn-primary px-4" id="submitButton" type="button">Submit</button>
+                <button class="browse btn btn-primary px-4" id="submitButton" type="button">Submit</button>
 
+            </div>
         </div>
+
+        <table id="resultTable" hidden="hidden">
+            <tr>
+
+            </tr>
+        </table>
+
+        <span id="indexResults" hidden="hidden"></span>
+
+        <div class="algo-display">
+            <div class="step" id="step1">
+                <h5>Step 1</h5>
+                <p>Identifying the mid element</p>
+                <div class="cell-display">
+                    <p>Here it is </p>
+                    <table style="width: fit-content;">
+                        <tr>
+                            <td>5</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="step" id="step2">
+                <h5>Step 2</h5>
+                <p>Start the iteration from left and right simultaneously</p>
+
+                <div class="cell-display">
+                    <p>Here from </p>
+                    <table style="width: fit-content;">
+                        <tr>
+                            <td>5</td>
+                        </tr>
+                    </table>
+                    <p>&amp;</p>
+                    <table style="width: fit-content;">
+                        <tr>
+                            <td>6</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="step" id="step3">
+                <h5>Step 3</h5>
+                <p>Store the found indexes in a list [0,1,2] and return</p>
+            </div>
+
+            <div class="step" id="result">
+                <h5>Result</h5>
+                <div class="cell-display">
+                    <p>The elements found here are </p>
+                    <table style="width: fit-content;">
+                        <tr>
+                            <td class="found-element">5</td>
+                            <td class="found-element">6</td>
+                        </tr>
+                    </table>
+                    <p> at index(es) [3,8]</p>
+                </div>
+            </div>
+
+            <div class="step" id="complexity">
+                <h5>Complexity</h5>
+                <p>Execution Time : 0.0099ms</p>
+                <p>Memory Used : 0 bytes</p>
+                <p>Time Complexity(O(N)) : 10</p>
+            </div>
+        </div>
+
+
     </div>
 
-    <table id="resultTable" hidden="hidden">
-        <tr>
-
-        </tr>
-    </table>
-
-    <span id="indexResults" hidden="hidden"></span>
-
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('submitButton').addEventListener('click', function() {
-
-            const inputValue = document.getElementById('itemsInput').value;
-            const searchValue = document.getElementById('itemSearch').value;
-            const items = inputValue.split(',').map(item => item.trim());
-
-            const row = document.querySelector('#resultTable tr');
-            row.innerHTML = '';
-
-            for (let i = 0; i < items.length; i++) {
-                const newTd = document.createElement('td');
-                newTd.textContent = items[i];
-                row.appendChild(newTd);
-            }
-            document.getElementById('resultTable').removeAttribute('hidden');
-
-            fetch('/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ items: items, searchValue:searchValue })
-            })
-                .then(response => response.json())
-                .then(data => {
-
-                document.getElementById('indexResults').removeAttribute('hidden');
-                const indexPositions = data.indexes.join(', ');
-                if (indexPositions.length == 1){
-                    document.getElementById('indexResults').innerText = 'Element found at index position: ' + indexPositions;
-                }else if (indexPositions.length > 0){
-                    document.getElementById('indexResults').innerText = 'Element found at index positions: ' + indexPositions;
-                }else{
-                    document.getElementById('indexResults').innerText = 'Element not found!';
-                }
-
-                const cells = document.querySelectorAll('#resultTable td');
-                cells.forEach((cell, index) => {
-                    if (data.indexes.includes(index)) {
-                        cell.classList.add('found-element');
-                    }
-                });
-
-            })
-                .catch(error => {
-                console.error('Error-found-in-request:', error);
-            });
-        });
-    });
-</script>
+    <script src="/static/main.js"></script>
 
 </body>
+
 </html>
