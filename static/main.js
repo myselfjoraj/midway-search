@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 table.appendChild(currentRow);
             }
         }
-        
+
         document.getElementById('resultTable').removeAttribute('hidden');
 
         // Animate highlighting from the middle outwards
@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 setTimeout(() => {
                     // Clear the last highlights
-                    if (left + 1 < cells.length) cells[left + 1].classList.remove('found-element');
-                    if (right - 1 >= 0) cells[right - 1].classList.remove('found-element');
+                    if (left + 1 < cells.length && cells[left + 1]) cells[left + 1].classList.remove('found-element');
+                    if (right - 1 >= 0 && cells[right - 1] ) cells[right - 1].classList.remove('found-element');
                     
                     console.log("op--->>",data1);
 
@@ -99,6 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideStep("step3");
                 hideStep("result");
                 hideStep("complexity");
+                mid_ele = Math.floor(items.length/2);
+                addContents((items[mid_ele]),items[mid_ele-1],items[mid_ele+1],data.indexes,searchValue,data.time,data.space,data.operations);
                 //document.getElementById('indexResults').removeAttribute('');
                 const indexPositions = data.indexes.join(', ');
                 const operations = data.operations;
@@ -181,9 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("mid-element-td").innerText = "" + mid_element;
                 document.getElementById("left-element-td").innerText = "" + left_element;
                 document.getElementById("right-element-td").innerText = "" + right_element;
-                document.getElementById("step3-text").innerText = "Store the found indexes in a list "+ indexes +" and return";
+                document.getElementById("step3-text").innerText = "Store the index(es) found in a list ["+ indexes +"] and return";
                 document.getElementById("given-element").innerText = "" + given_element;
-                document.getElementById("step4-text").innerText = "is found at index(es) " + indexes;
+                document.getElementById("step4-text").innerText = given_element+" is found at index(es) " + indexes + "";
                 document.getElementById("execution-text").innerText = "Execution Time : "+ tc +" ms";
                 document.getElementById("memory-text").innerText = "Memory Used : "+ memory +" bytes";
                 document.getElementById("time-comp-text").innerText = "Time Complexity(O(N)) : "+ operations;
